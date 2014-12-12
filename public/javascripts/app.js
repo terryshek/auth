@@ -261,8 +261,13 @@ app.controller('deleteCtrl',function($scope, $modalInstance, items, memberServic
 
     };
 })
-app.controller("loginCtrl", function($scope,memberService,$location ){
+app.controller("loginCtrl", function($scope,memberService,$location,$http){
     console.log("loginCtrl")
+
+    $scope.csrfToken = window.csrfToken;
+    console.log($scope.csrfToken);
+    $http.get("/list?csrfToken="+$scope.csrfToken)
+    //$http.post("/list")
     $scope.submitAccount = function(){
         console.log($scope.user)
         memberService.login($scope.user).then(function(data){

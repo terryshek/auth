@@ -71,6 +71,7 @@ app.locals.pretty = true;
 app.get('/',function(req,res){
     res.render('index', {title:'express'});
 })
+
 app.get('/register',function(req,res){
     //res.json(req.body)
     console.log('register')
@@ -100,6 +101,15 @@ app.post('/register',function(req,res){
 
     })
 })
+//===================== api ===========================//
+app.get('/list:csrfToken',function(req, res){
+    console.log(req.param)
+    User.find(function(err, list){
+        if (err) return next(err);
+        res.json(list);
+    })
+})
+// ======================api ========================//
 app.get('/login',function(req,res){
 
     res.render('login', {title:'login', csrfToken:req.csrfToken()});
@@ -128,6 +138,9 @@ app.get('/dashboard',requireLogin,function(req,res){
 app.get('/logout',function(req,res){
     req.session.reset();
     res.redirect('/');
+})
+app.get('*',function(req,res){
+    res.send('hello world');
 })
 
 app.listen(port,function(){
